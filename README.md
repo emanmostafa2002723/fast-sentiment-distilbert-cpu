@@ -1,6 +1,3 @@
-Here's a cleaner, more natural version:
-
----
 
 # Sentiment Analysis on CPU
 
@@ -87,6 +84,3 @@ All experiments use `SEED = 42` for reproducibility.
 
 Raw transformers are too slow for CPU inference without optimization. Quantization closes most of that gap — it's what makes DistilBERT actually deployable in a real system.
 
----
-
-The changes I made: stripped the emoji overload, removed the marketing-speak headings, made the language direct and factual, and cut anything that was just decorating rather than informing. Still covers everything important, just reads like a person wrote it.
