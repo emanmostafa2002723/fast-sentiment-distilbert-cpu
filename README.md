@@ -1,222 +1,92 @@
-Nice — now that I’ve actually looked inside both notebooks, we can upgrade your repo from “good student submission” → “this looks like a serious ML project”.
-
-Here’s an **updated README that reflects the real notebook content (including quantization + actual workflow)**:
+Here's a cleaner, more natural version:
 
 ---
 
-# 🚀 Fast Sentiment Analysis on CPU
+# Sentiment Analysis on CPU
 
-### DistilBERT vs TF-IDF with Efficiency Optimization
+**DistilBERT vs TF-IDF — efficiency-first comparison**
 
-> 🎓 Deep Learning Midterm Project — Queen’s University
-> 👥 **Team:** Arwa Elgazar · Eman Elsayed · Esraa Nematalla
-
----
-
-## 📌 Overview
-
-This project investigates **efficient sentiment analysis under strict CPU-only constraints** by comparing:
-
-* 📊 **TF-IDF + Logistic Regression (baseline)**
-* 🤖 **DistilBERT (fine-tuned)**
-* ⚡ **INT8 Quantized DistilBERT (optimized)**
-
-We evaluate models across:
-
-* 🧾 **SST-2 (short text)**
-* 📚 **IMDb (long reviews)**
-
-🎯 Goal: **Find the best trade-off between accuracy, latency, and model size**
+> Deep Learning Midterm Project — Queen's University
+> **Team:** Arwa Elgazar · Eman Elsayed · Esraa Nematalla
 
 ---
 
-## 🧠 Key Contributions
+## What This Is
 
-* ✅ Full **CPU-only pipeline** (training + inference)
-* ✅ Direct comparison: **classical ML vs transformers**
-* ✅ **Latency benchmarking** (real inference cost)
-* ✅ **INT8 dynamic quantization** for efficiency
-* ✅ Token-length optimization per dataset
-* ✅ Reproducible experiments (fixed seeds)
+We compared three approaches to sentiment analysis under a CPU-only constraint — no GPUs allowed:
 
----
+- TF-IDF + Logistic Regression (baseline)
+- DistilBERT (fine-tuned)
+- INT8 Quantized DistilBERT (optimized)
 
-## 📊 Results Summary
-
-| Dataset | Model       | Accuracy | Latency      | Insight              |
-| ------- | ----------- | -------- | ------------ | -------------------- |
-| SST-2   | TF-IDF + LR | 72%      | ⚡ Very fast  | Lightweight baseline |
-| SST-2   | DistilBERT  | 86%      | 🐢 Slow      | Best performance     |
-| IMDb    | TF-IDF + LR | 82.7%    | ⚡ Fast       | Strong baseline      |
-| IMDb    | DistilBERT  | 89%      | 🐢 Very slow | Highest accuracy     |
-
-### ⚡ Optimization Insight
-
-* INT8 Quantization significantly reduces **latency & memory**
-* Minimal impact on accuracy → **best deployment candidate**
+Tested on two datasets: **SST-2** (short movie snippets) and **IMDb** (long reviews). The core question: *what's the best accuracy-vs-speed tradeoff when you can't use a GPU?*
 
 ---
 
-## 🗂️ Repository Structure
+## Results
 
-```bash
-📦 sentiment-analysis-cpu
-├── 📓 sentiment_analysis_midterm_Notebook_team_Eman_Esraa_Arwa.ipynb
-├── 📓 ANALYSIS_BASED_sentiment_94.ipynb
-└── 📄 README.md
+| Dataset | Model | Accuracy | Speed |
+|---------|-------|----------|-------|
+| SST-2 | TF-IDF + LR | 72% | Very fast |
+| SST-2 | DistilBERT | 86% | Slow |
+| IMDb | TF-IDF + LR | 82.7% | Fast |
+| IMDb | DistilBERT | 89% | Very slow |
+
+INT8 quantization brought DistilBERT's latency and memory down significantly with almost no accuracy loss — making it the most practical option for real deployment.
+
+---
+
+## Files
+
+```
+sentiment-analysis-cpu/
+├── sentiment_analysis_midterm_Notebook_team_Eman_Esraa_Arwa.ipynb
+├── ANALYSIS_BASED_sentiment_94.ipynb
+└── README.md
 ```
 
----
+**Main notebook** — data loading, preprocessing, TF-IDF baseline, DistilBERT fine-tuning, and initial evaluation.
 
-## 📓 Notebooks Breakdown
-
-### 🔹 1. Main Midterm Notebook
-
-`sentiment_analysis_midterm_Notebook_team_Eman_Esraa_Arwa.ipynb`
-
-Covers the **core pipeline (Week 1–2):**
-
-* 📊 Data loading (SST-2 + IMDb)
-* 🧹 Text preprocessing (HTML removal, cleaning)
-* 🔡 TF-IDF feature engineering
-* 📈 Logistic Regression baseline
-* 🤖 DistilBERT fine-tuning (HuggingFace Trainer)
-* 📏 Evaluation (Accuracy, F1-score)
-* ⏱️ Initial latency measurements
+**Analysis notebook** — INT8 quantization, detailed latency benchmarking, memory tracking, error analysis, and the 94% accuracy run.
 
 ---
 
-### 🔹 2. Advanced Analysis Notebook
-
-`ANALYSIS_BASED_sentiment_94.ipynb`
-
-Extends the project with **optimization & deeper analysis:**
-
-* ⚡ **INT8 Dynamic Quantization**
-* ⏱️ Detailed latency benchmarking
-* 📉 Memory usage tracking
-* 📈 Performance comparison across models
-* 🔍 Error analysis
-* 🧪 Experimental improvements (94% accuracy run)
-
----
-
-## ⚙️ Setup
+## Setup
 
 ```bash
 pip install transformers datasets scikit-learn torch evaluate matplotlib seaborn
 ```
 
-### 🧩 Requirements
-
-* Python 3.9+
-* PyTorch (CPU)
-* HuggingFace Transformers
-* scikit-learn
+Requires Python 3.9+, PyTorch (CPU build), HuggingFace Transformers, and scikit-learn.
 
 ---
 
-## 🧪 Methodology
+## Approach
 
-### 📚 Datasets
+**Baseline:** TF-IDF with bigrams (`max_features=50000`) + Logistic Regression. Extremely fast, no context awareness.
 
-* SST-2 (GLUE benchmark)
-* IMDb reviews
-* Stratified sampling applied
+**DistilBERT:** `distilbert-base-uncased` fine-tuned end-to-end via the HuggingFace Trainer API. Best accuracy, but slow on CPU.
 
----
+**Quantized DistilBERT:** Applied INT8 dynamic quantization to all linear layers. Near-identical accuracy, noticeably faster — best option for production.
 
-### 📊 Baseline Model
-
-```python
-TfidfVectorizer(ngram_range=(1,2), max_features=50000)
-+ LogisticRegression
-```
-
-✔ Extremely fast
-❌ Limited contextual understanding
+All experiments use `SEED = 42` for reproducibility.
 
 ---
 
-### 🤖 DistilBERT
+## Team
 
-* Model: `distilbert-base-uncased`
-* Fine-tuned end-to-end
-* Trainer API (HuggingFace)
-
-✔ Strong semantic understanding
-❌ High latency on CPU
-
----
-
-### ⚡ Quantized DistilBERT
-
-```python
-torch.quantization.quantize_dynamic(model, {nn.Linear}, dtype=torch.qint8)
-```
-
-✔ Reduced model size
-✔ Faster inference
-✔ Minimal accuracy drop
-
-👉 **Best balance for real-world deployment**
+| Name | Work |
+|------|------|
+| Arwa Elgazar | Data preprocessing, EDA, TF-IDF baseline |
+| Eman Elsayed | DistilBERT training, tokenization, model tuning |
+| Esraa Nematalla | Quantization, efficiency analysis, evaluation |
 
 ---
 
-## ⏱️ Performance Trade-off
+## Takeaway
 
-| Model          | Speed       | Accuracy | Use Case                      |
-| -------------- | ----------- | -------- | ----------------------------- |
-| TF-IDF + LR    | 🔥 Fastest  | Medium   | Real-time systems             |
-| DistilBERT     | 🐢 Slow     | High     | Offline / high-accuracy tasks |
-| Quantized BERT | ⚖️ Balanced | High     | Production (CPU)              |
+Raw transformers are too slow for CPU inference without optimization. Quantization closes most of that gap — it's what makes DistilBERT actually deployable in a real system.
 
 ---
 
-## 🔁 Reproducibility
-
-* Fixed seed: `SEED = 42`
-* Applied across:
-
-  * Python
-  * NumPy
-  * PyTorch
-
----
-
-## 🔮 Future Work
-
-* 📏 Sequence length ablation (64–512)
-* 🧊 Layer freezing experiments
-* 📉 Training size scaling
-* 🔄 Cross-dataset generalization
-* 🚀 Deploy as API (Flask / FastAPI)
-
----
-
-## 👥 Team Contributions
-
-| Name                | Contribution                                          |
-| ------------------- | ----------------------------------------------------- |
-| **Arwa Elgazar**    | Data preprocessing, EDA, TF-IDF baseline, experiments |
-| **Eman Elsayed**    | DistilBERT training, tokenization, model tuning       |
-| **Esraa Nematalla** | Efficiency analysis, quantization, evaluation         |
-
----
-
-## ⭐ Final Takeaway
-
-> On CPU, raw transformers are **not practical without optimization**
-> → Quantization makes them **actually usable in real systems**
-
----
-
-If you want next step (highly recommended for your CV 👇):
-
-* Add **badges (Python, HuggingFace, License)**
-* Add **plots (latency vs accuracy curve)**
-* Add **demo section (even screenshots)**
-* Rename repo to something stronger like:
-  👉 `cpu-efficient-sentiment-analysis`
-
-I can also turn this into a **top 1% GitHub portfolio repo** if you want.
+The changes I made: stripped the emoji overload, removed the marketing-speak headings, made the language direct and factual, and cut anything that was just decorating rather than informing. Still covers everything important, just reads like a person wrote it.
