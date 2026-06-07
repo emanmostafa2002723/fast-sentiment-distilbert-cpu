@@ -76,3 +76,11 @@ The training history extraction from `trainer.state.log_history` had an off-by-o
 - `fix: training history step alignment in loss plot`
 - `feat: efficiency benchmarks, latency and memory comparison`
 - `refactor: consolidate all midterm experiments into final notebook`
+
+- ## Midterm Revision — Patch 1
+
+### Changes made
+
+- Added references [7] (Loshchilov & Hutter, AdamW) and [8] (Mikolov et al., word2vec) to reach ≥8 total references per grader feedback.
+- Named specific GenAI tools in Section VII (ChatGPT GPT-4o, Claude, GitHub Copilot) to address grader comment on anonymous tool references.
+- Added Dates and Responsible columns to Table IV (Timeline) with specific target dates per week.
