@@ -84,3 +84,24 @@ The training history extraction from `trainer.state.log_history` had an off-by-o
 - Added references [7] (Loshchilov & Hutter, AdamW) and [8] (Mikolov et al., word2vec) to reach ≥8 total references per grader feedback.
 - Named specific GenAI tools in Section VII (ChatGPT GPT-4o, Claude, GitHub Copilot) to address grader comment on anonymous tool references.
 - Added Dates and Responsible columns to Table IV (Timeline) with specific target dates per week.
+
+
+## Week 3: Efficiency Analysis Notebook
+
+### Progress
+
+Built `07_efficiency_analysis.ipynb` from scratch this week.
+Added latency benchmarking (median + p95, 100 samples, 5 warm-up),
+memory profiling with psutil RSS, model size via torch.save,
+Pareto frontier plot, and summary comparison table.
+Results table seeded with FP32 baseline numbers from midterm.
+INT8 and BiLSTM rows will be filled once those experiments complete.
+
+### Commits this week
+- feat: create efficiency analysis notebook
+- feat: add imports to efficiency notebook
+- feat: add latency measurement function
+- feat: add memory profiling and model size functions
+- feat: add Pareto frontier plot function
+- feat: add results table with baseline numbers, generate Pareto plot
+- feat: add summary table and CSV export
