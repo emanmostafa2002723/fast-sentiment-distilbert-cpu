@@ -105,3 +105,26 @@ INT8 and BiLSTM rows will be filled once those experiments complete.
 - feat: add Pareto frontier plot function
 - feat: add results table with baseline numbers, generate Pareto plot
 - feat: add summary table and CSV export
+
+- week 4
+- Esraa:
+- notebook measures how efficient each model is on CPU, that is the deployment target.
+All numbers come from the main notebook run (same seed, same models):
+Model	Dataset	Acc %	Lat (ms)	Size (MB)
+TF-IDF + LR	SST-2	81.65	0.92 ± 0.03	2.33
+TF-IDF + LR	IMDb	89.50	1.34 ± 0.25	2.24
+BiLSTM+GloVe+Attn	SST-2	85.32	2.61 ± 0.15	13.86
+BiLSTM+GloVe+Attn	IMDb	88.44	7.71 ± 1.07	13.86
+DistilBERT FP32	SST-2	90.71	49.94 ± 4.12	255.5
+DistilBERT FP32	IMDb	91.07	99.25 ± 8.42	255.5
+DistilBERT INT8	SST-2	89.45	17.83 ± 1.40	132.3
+DistilBERT INT8	IMDb	89.91	49.89 ± 5.92	132.3
+Setup
+Accuracy before vs. after quantization
+Latency benchmarks, mean, std, p95
+Memory profiling (psutil RSS + tracemalloc)
+Model size reduction
+BiLSTM efficiency comparison
+Pareto frontier: accuracy vs. latency
+Report-ready overview figure
+Summary table
