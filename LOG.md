@@ -106,7 +106,7 @@ INT8 and BiLSTM rows will be filled once those experiments complete.
 - feat: add results table with baseline numbers, generate Pareto plot
 - feat: add summary table and CSV export
 
-- week 4
+## week 4
 - Esraa:
 - notebook measures how efficient each model is on CPU, that is the deployment target.
 All numbers come from the main notebook run (same seed, same models):
